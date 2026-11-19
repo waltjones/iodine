@@ -31,7 +31,7 @@ typedef struct {
   ID method;
   int exception;
   VALUE (*protected_task)(VALUE tsk_);
-  VALUE (*each_func)(VALUE block_arg, VALUE data, int argc, VALUE *argv);
+  rb_block_call_func_t each_func;
   VALUE each_udata;
 } iodine_rb_task_s;
 
@@ -158,9 +158,7 @@ static VALUE iodine_call2(VALUE obj, ID method, int argc, VALUE *argv) {
 
 /** Calls a Ruby method on a given object, protecting against exceptions. */
 static VALUE iodine_call_block(VALUE obj, ID method, int argc, VALUE *argv,
-                               VALUE udata,
-                               VALUE(each_func)(VALUE block_arg, VALUE udata,
-                                                int argc, VALUE *argv)) {
+                               VALUE udata, rb_block_call_func_t each_func) {
   iodine_rb_task_s task = {
       .obj = obj,
       .argc = argc,
