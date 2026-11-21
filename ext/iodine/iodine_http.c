@@ -530,8 +530,7 @@ array_style_multi_value:
 }
 
 // writes the body to the response object
-static VALUE for_each_body_string(VALUE str, VALUE body_, int argc,
-                                  VALUE *argv) {
+static VALUE for_each_body_string(RB_BLOCK_CALL_FUNC_ARGLIST(str, body_)) {
   // fprintf(stderr, "For_each - body\n");
   // write body
   if (TYPE(str) != T_STRING) {
@@ -544,6 +543,7 @@ static VALUE for_each_body_string(VALUE str, VALUE body_, int argc,
   return Qtrue;
   (void)argc;
   (void)argv;
+  (void)blockarg;
 }
 
 static inline int ruby2c_response_send(iodine_http_request_handle_s *handle,
